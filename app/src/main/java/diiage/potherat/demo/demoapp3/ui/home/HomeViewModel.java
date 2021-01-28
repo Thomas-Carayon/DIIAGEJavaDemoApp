@@ -21,22 +21,28 @@ public class HomeViewModel extends ViewModel {
 
     @Inject
     @ViewModelInject
-    public HomeViewModel(QuoteRepository quoteRepository) {
+    public HomeViewModel(QuoteRepository quoteRepository)
+    {
         this.quoteRepository = quoteRepository;
     }
 
-    public LiveData<String> getNumbers() {
-        return Transformations.map(quoteRepository.getNumbers(), numbers -> {
+    public LiveData<String> getNumbers()
+    {
+        return Transformations.map(quoteRepository.getNumbers(), numbers ->
+        {
             return numbers.toString();
         });
     }
 
-    public LiveData<Quote> getLast() {
+    public LiveData<Quote> getLast()
+    {
         return quoteRepository.getLast();
     }
 
-    public LiveData<String> getDistincts() {
-        return Transformations.map(quoteRepository.getDistincts(), source -> {
+    public LiveData<String> getDistincts()
+    {
+        return Transformations.map(quoteRepository.getDistincts(), source ->
+        {
             return source.toString();
         });
     }
