@@ -18,14 +18,40 @@ import diiage.potherat.demo.demoapp3.R;
 @AndroidEntryPoint
 public class HomeFragment extends Fragment {
 
-    private HomeViewModel homeViewModel;
+    private HomeViewModel viewModel;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                new ViewModelProvider(this,getDefaultViewModelProviderFactory()).get(HomeViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        viewModel =  new ViewModelProvider(this,getDefaultViewModelProviderFactory()).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-
         return root;
+    };
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState)
+    {
+        super.onActivityCreated(savedInstanceState);
+        viewModel = new ViewModelProvider(this,getDefaultViewModelProviderFactory()).get(HomeViewModel.class);
+    }
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        viewModel.getNumbers().observe(getViewLifecycleOwner(), number -> {
+            TextView numberTextView =  this.getView().findViewById(R.id.txtNumberOfQuotes);
+            numberTextView.setText(number.toString());
+        });
+
+        viewModel.getLast().observe(getViewLifecycleOwner(), quote -> {
+            TextView numberTextView =  this.getView().findViewById(R.id.txtQuote);
+            TextView sourceTextView =  this.getView().findViewById(R.id.txtSource);
+            numberTextView.setText(quote.getQuote());
+        });
+
+        viewModel.getDistincts().observe(getViewLifecycleOwner(), source -> {
+            TextView numberTextView =  this.getView().findViewById(R.id.txtNumberOfQuotes);
+            numberTextView.setText(source.toString());
+        });
     }
 }
